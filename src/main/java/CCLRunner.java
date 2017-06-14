@@ -4,12 +4,12 @@ import java.lang.reflect.*;
 
 /*
 
-CCLRun executes a Java program by loading it through a
+CCLRunner executes a Java program by loading it through a
 CompilingClassLoader.
 
 */
 
-public class CCLRun
+public class CCLRunner
 {
     static public void main( String args[] ) throws Exception {
 

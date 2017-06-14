@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
 rm *.class
 rm baz/*.class
-javac CCLRun.java 
+javac CCLRunner.java
 javac CompilingClassLoader.java
-java CCLRun Foo hello world
+java CCLRunner FirstLoadedClass hello world

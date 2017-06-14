@@ -1,6 +1,7 @@
 // $Id$
 
 import java.io.*;
+import java.util.Scanner;
 
 /*
 
@@ -44,7 +45,7 @@ public class CompilingClassLoader extends ClassLoader
     // the compilation worked, false otherwise.
     private boolean compile( String javaFile ) throws IOException {
         // Let the user know what's going on
-        System.out.println( "CCL: Compiling "+javaFile+"..." );
+        System.out.println( "[CCL: Compiling] "+javaFile+"..." );
 
         // Start up the compiler
         Process p = Runtime.getRuntime().exec( "javac "+javaFile );
@@ -52,6 +53,10 @@ public class CompilingClassLoader extends ClassLoader
         // Wait for it to finish running
         try {
             p.waitFor();
+            Scanner scanner=new Scanner(p.getInputStream());
+            while (scanner.hasNextLine()){
+                System.out.println(scanner.nextLine());
+            }
         } catch( InterruptedException ie ) { System.out.println( ie ); }
 
         // Check the return code, in case of a compilation error
@@ -87,8 +92,8 @@ public class CompilingClassLoader extends ClassLoader
         File javaFile = new File( javaFilename );
         File classFile = new File( classFilename );
 
-        System.out.println("java  file last modified: "+javaFile.lastModified());
-        System.out.println("class File last modified: "+ classFile.lastModified() );
+//        System.out.println("java  file last modified: "+javaFile.lastModified());
+//        System.out.println("class File last modified: "+ classFile.lastModified() );
 
         // First, see if we want to try compiling.  We do if (a) there
         // is source code, and either (b0) there is no object code,
@@ -132,9 +137,9 @@ public class CompilingClassLoader extends ClassLoader
         // the normal way
         if (clas==null) {
             clas = findSystemClass( name );
+            System.out.println( String.format("findSystemClass for %s. result:%s",name,clas) );
         }
 
-        System.out.println( String.format("findSystemClass for %s. result:%s",name,clas) );
 
         // Resolve the class, if any, but only if the "resolve"
         // flag is set to true
@@ -146,6 +151,7 @@ public class CompilingClassLoader extends ClassLoader
             throw new ClassNotFoundException( name );
 
         // Otherwise, return the class
+        System.out.println("********************************************************\n\n");
         return clas;
     }
 }
